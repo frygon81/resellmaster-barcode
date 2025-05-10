@@ -4,9 +4,9 @@ function handleBarcode(input) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = function (e) {
-    // Barcode image recognition not implemented here (simulate for demo)
-    const simulatedBarcode = "MS327CI";
-    document.getElementById("sku").value = simulatedBarcode;
+    // Simulate barcode recognition
+    const simulatedSKU = "MS327CI"; // Example barcode → SKU
+    document.getElementById("sku").value = simulatedSKU;
   };
   reader.readAsDataURL(file);
 }
@@ -19,8 +19,11 @@ function analyze() {
     return;
   }
 
+  const ebaySales = 38;
   const ebayAvg = 135000;
+  const stockxSales = 14;
   const stockxAvg = 129000;
+
   const fee = ebayAvg * 0.12;
   const shipping = 18000;
   const netProfit = ebayAvg - fee - shipping - price;
@@ -29,16 +32,19 @@ function analyze() {
   if (netProfit < 10000) status = '⚠ 테스트';
   if (netProfit < 0) status = '❌ 제외';
 
+  const ebayName = "New Balance MS327CI Grey";
+  const stockxName = "MS327CI Grey White";
+
   document.getElementById('result').innerHTML =
-    `<p><strong>[eBay 기준]</strong></p>
-     <p>30일 판매가 평균: ₩${ebayAvg}</p>
-     <p>예상 수수료(12%): ₩${Math.round(fee)}</p>
-     <p>예상 배송비: ₩${shipping}</p>
+    `<p><strong>제품명 확인:</strong></p>
+     <p>[eBay] ${ebayName} (${ebaySales}건 판매)</p>
+     <p>[StockX] ${stockxName} (${stockxSales}건 거래)</p>
      <hr>
-     <p><strong>[StockX 참고]</strong></p>
-     <p>평균가: ₩${stockxAvg}</p>
+     <p><strong>eBay 평균가: ₩${ebayAvg}</strong></p>
+     <p>수수료(12%): ₩${Math.round(fee)}</p>
+     <p>배송비: ₩${shipping}</p>
+     <p>입력 국내가: ₩${price}</p>
      <hr>
-     <p><strong>입력 국내가: ₩${price}</strong></p>
      <p><strong>예상 순이익: ₩${netProfit}</strong></p>
-     <p><strong>리셀 추천 결과: ${status}</strong></p>`;
+     <p><strong>추천 결과: ${status}</strong></p>`;
 }
