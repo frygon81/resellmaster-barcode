@@ -1,14 +1,23 @@
 
-function handleBarcode(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    // Simulate barcode recognition
-    const simulatedSKU = "MS327CI"; // Example barcode → SKU
-    document.getElementById("sku").value = simulatedSKU;
-  };
-  reader.readAsDataURL(file);
+let scanner;
+
+function startScanner() {
+  if (scanner) {
+    scanner.clear().then(() => scanner = null);
+    return;
+  }
+  scanner = new Html5Qrcode("reader");
+  scanner.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    (decodedText, decodedResult) => {
+      document.getElementById("sku").value = decodedText;
+      scanner.stop();
+    },
+    (errorMessage) => {
+      // ignore error
+    }
+  );
 }
 
 function analyze() {

@@ -2,13 +2,15 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>루카 리셀마스터</title>
+  <title>루카 리셀마스터 - 바코드 실시간</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
   <h1>루카 리셀마스터</h1>
-  <input type="file" accept="image/*" capture="environment" id="barcodeImage" onchange="handleBarcode(this)">
-  <input type="text" id="sku" placeholder="SKU 또는 바코드">
+  <div id="reader" style="width:300px;margin:auto;"></div>
+  <button onclick="startScanner()">바코드 스캔 시작</button>
+  <input type="text" id="sku" placeholder="SKU">
   <input type="number" id="price" placeholder="국내가 (₩)">
   <button onclick="analyze()">예측하기</button>
   <div id="result"></div>
